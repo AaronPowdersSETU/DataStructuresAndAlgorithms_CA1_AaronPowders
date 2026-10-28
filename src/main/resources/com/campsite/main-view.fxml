@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.campsite.MainController">
+
+    <!-- TOP: save / load / reset buttons -->
+    <top>
+        <HBox spacing="10.0">
+            <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
+            <Button text="Save" onAction="#save"/>
+            <Button text="Load" onAction="#load"/>
+            <Button text="Reset All Data" onAction="#reset"/>
+            <Separator orientation="VERTICAL"/>
+            <Button text="Pending Bookings (Selected Campsite)" onAction="#showCampsitePending"/>
+            <Button text="Pending Bookings (All)" onAction="#showAllPending"/>
+        </HBox>
+    </top>
+
+    <!-- CENTRE: the drill-down lists and the details box -->
+    <center>
+        <VBox spacing="10.0">
+            <padding><Insets right="10.0" left="10.0"/></padding>
+            <HBox spacing="10.0">
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="1. Campsites"/>
+                    <ListView fx:id="campsiteList" prefHeight="200.0" onMouseClicked="#campsiteClicked"/>
+                </VBox>
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="2. Camping Areas"/>
+                    <ListView fx:id="areaList" prefHeight="200.0" onMouseClicked="#areaClicked"/>
+                </VBox>
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="3. Plots / Pitches"/>
+                    <ListView fx:id="plotList" prefHeight="200.0" onMouseClicked="#plotClicked"/>
+                    <Button text="Remove Selected Plot" onAction="#removePlot"/>
+                </VBox>
+                <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                    <Label text="4. Bookings"/>
+                    <ListView fx:id="bookingList" prefHeight="200.0" onMouseClicked="#bookingClicked"/>
+                    <Button text="Cancel Selected Booking" onAction="#cancelBooking"/>
+                </VBox>
+            </HBox>
+            <Label text="Details / Reports"/>
+            <TextArea fx:id="detailsArea" editable="false" prefHeight="200.0" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </center>
+
+    <!-- BOTTOM: one tab per form -->
+    <bottom>
+        <TabPane prefHeight="230.0" tabClosingPolicy="UNAVAILABLE">
+
+            <Tab text="Add Campsite">
+                <GridPane hgap="10.0" vgap="8.0">
+                    <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
+                    <Label text="Name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="campsiteNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Address" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="campsiteAddressField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Stars" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="campsiteStarsField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Contact" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="campsiteContactField" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+                    <Label text="Facilities (comma separated)" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="campsiteFacilitiesField" promptText="WiFi, Pool, Laundry" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                    <Button text="Add Campsite" onAction="#addCampsite" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Add Camping Area">
+                <GridPane hgap="10.0" vgap="8.0">
+                    <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
+                    <Label text="Adds to the campsite selected in list 1" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2"/>
+                    <Label text="Identifier" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="areaIdField" promptText="Lake View Area 1" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Description" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="areaDescriptionField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Button text="Add Camping Area" onAction="#addCampingArea" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Add Plot/Pitch">
+                <GridPane hgap="10.0" vgap="8.0">
+                    <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
+                    <Label text="Identifier" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="plotIdField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Type" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="plotTypeBox" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <CheckBox fx:id="plotPowerCheck" text="Has power (static always yes)" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Bedrooms" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="plotBedroomsField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <Label text="Beds" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="plotBedsField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                    <Label text="Size (m2)" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="plotSizeField" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+                    <Label text="Facilities (comma separated)" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="plotFacilitiesField" promptText="Air Conditioning, Hot Tub" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                    <Label text="Cost per night (€)" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <TextField fx:id="plotCostField" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                    <Label text="Photo URL" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                    <TextField fx:id="plotPhotoField" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+                    <Button text="Add Plot to Selected Area" onAction="#addPlot" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Guests">
+                <GridPane hgap="10.0" vgap="8.0">
+                    <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
+                    <Label text="Name" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="guestNameField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Date of birth" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="guestDobPicker" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Address" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="guestAddressField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Phone" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="guestPhoneField" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+                    <Label text="Email" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="guestEmailField" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                    <Label text="Other info" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <TextField fx:id="guestInfoField" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                    <Button text="Add Guest" onAction="#addGuest" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <Label text="Guest ID" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                    <HBox spacing="10.0" GridPane.rowIndex="3" GridPane.columnIndex="3">
+                        <TextField fx:id="viewGuestIdField" prefWidth="80.0"/>
+                        <Button text="View Guest Record" onAction="#viewGuestRecord"/>
+                    </HBox>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Make Booking">
+                <GridPane hgap="10.0" vgap="8.0">
+                    <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
+                    <Label text="Books in the campsite and area selected in lists 1 and 2" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="4"/>
+                    <Label text="Guest ID" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="bookingGuestIdField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Start date" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="bookingStartPicker" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="End date" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="bookingEndPicker" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <Label text="Type" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="bookingTypeBox" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                    <Label text="Number of guests" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="bookingNumGuestsField" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                    <CheckBox fx:id="bookingPowerCheck" text="Needs power" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                    <Label text="Min size (m2)" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                    <TextField fx:id="bookingMinSizeField" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+                    <Label text="Min bedrooms" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                    <TextField fx:id="bookingMinBedroomsField" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+                    <Label text="Budget (€ total)" GridPane.rowIndex="1" GridPane.columnIndex="4"/>
+                    <TextField fx:id="bookingBudgetField" GridPane.rowIndex="1" GridPane.columnIndex="5"/>
+                    <Button text="Make Booking" onAction="#makeBooking" GridPane.rowIndex="4" GridPane.columnIndex="5"/>
+                </GridPane>
+            </Tab>
+
+            <Tab text="Smart Find">
+                <GridPane hgap="10.0" vgap="8.0">
+                    <padding><Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/></padding>
+                    <Label text="Guest ID" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="smartGuestIdField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Desired start" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="smartStartPicker" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Nights" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="smartNightsField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Number of guests" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="smartNumGuestsField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <Label text="Budget (€ total)" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="smartBudgetField" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+                    <Label text="Min stars" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="smartMinStarsField" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                    <Label text="Type" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <ComboBox fx:id="smartTypeBox" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                    <CheckBox fx:id="smartPowerCheck" text="Needs power" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+                    <Label text="Facilities wanted" GridPane.rowIndex="0" GridPane.columnIndex="4"/>
+                    <TextField fx:id="smartFacilitiesField" promptText="Pool, Air Conditioning" GridPane.rowIndex="0" GridPane.columnIndex="5"/>
+                    <Button text="Find" onAction="#smartFind" GridPane.rowIndex="2" GridPane.columnIndex="5"/>
+                    <Button text="Book It" onAction="#bookSmartFind" GridPane.rowIndex="3" GridPane.columnIndex="5"/>
+                </GridPane>
+            </Tab>
+        </TabPane>
+    </bottom>
+</BorderPane>

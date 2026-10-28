@@ -1,0 +1,10 @@
+# IntelliJ files
+.idea/
+*.iml
+out/
+
+# Maven build output
+target/
+
+# Saved data file created when you press Save
+campsite-data.dat
