@@ -4,10 +4,7 @@ import com.campsite.datastructures.MyLinkedList;
 
 import java.io.Serializable;
 
-/**
- * A camping area inside a campsite, e.g. "Lake View Area 1".
- * A camping area holds a list of plots/pitches.
- */
+
 public class CampingArea implements Serializable {
 
     private String identifier;
@@ -20,10 +17,7 @@ public class CampingArea implements Serializable {
         this.plots = new MyLinkedList<>();
     }
 
-    /**
-     * Adds a plot, but only if no other plot in this area has the same identifier.
-     * Returns true if added.
-     */
+
     public boolean addPlot(Plot plot) {
         if (findPlot(plot.getIdentifier()) != null) {
             return false;
@@ -32,7 +26,7 @@ public class CampingArea implements Serializable {
         return true;
     }
 
-    // Finds a plot by identifier (ignoring case). Returns null if not found
+    // Finds a plot by identifier (ignoring case). Returns null if not found.
     public Plot findPlot(String identifier) {
         for (Plot plot : plots) {
             if (plot.getIdentifier().equalsIgnoreCase(identifier)) {
@@ -42,7 +36,7 @@ public class CampingArea implements Serializable {
         return null;
     }
 
-    // Removes a plot from this area
+    // Removes a plot from this area.
     public boolean removePlot(Plot plot) {
         return plots.remove(plot);
     }

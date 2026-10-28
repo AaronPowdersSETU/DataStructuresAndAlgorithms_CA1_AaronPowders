@@ -5,14 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for the custom linked list.
- */
+
 class MyLinkedListTest {
 
     private MyLinkedList<String> list;
 
-    // Runs before EVERY test, so each test starts with a fresh empty list
+    // Runs before every test, so each test starts with a fresh empty list.
     @BeforeEach
     void setUp() {
         list = new MyLinkedList<>();

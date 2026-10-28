@@ -5,14 +5,10 @@ import com.campsite.datastructures.MyLinkedList;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- * A single plot/pitch inside a camping area.
- * It can be a static dwelling (mobile home, bungalow, apartment) or an empty pitch.
- * Each plot keeps its own list of bookings.
- */
+
 public class Plot implements Serializable {
 
-    // The plot types used throughout the system
+    // The plot types used throughout the system.
     public static final String STATIC_MOBILE_HOME = "Static Mobile Home";
     public static final String BUNGALOW = "Bungalow";
     public static final String APARTMENT = "Apartment";
@@ -23,11 +19,11 @@ public class Plot implements Serializable {
     private boolean hasPower;
     private int bedrooms;
     private int beds;
-    private double size;                       // square metres
-    private MyLinkedList<String> facilities;   // e.g. Air Conditioning, Hot Tub
-    private double costPerNight;               // euro
-    private String photoUrl;
-    private MyLinkedList<Booking> bookings;    // bookings made for this plot
+    private double size;                       // square metres.
+    private MyLinkedList<String> facilities;   // e.g. Air Conditioning, Hot Tub.
+    private double costPerNight;               // euro.
+    private String photoUrl;                   // URL of photo.
+    private MyLinkedList<Booking> bookings;    // bookings made for this plot.
 
     public Plot(String identifier, String type, boolean hasPower, int bedrooms, int beds,
                 double size, MyLinkedList<String> facilities, double costPerNight, String photoUrl) {
@@ -40,28 +36,24 @@ public class Plot implements Serializable {
         this.bookings = new MyLinkedList<>();
 
         if (isStatic()) {
-            // The brief says static dwellings always have power
+            // brief says static dwellings always have power.
             this.hasPower = true;
             this.bedrooms = bedrooms;
             this.beds = beds;
         } else {
-            // Empty pitches: power is optional, and there are no bedrooms or beds
+            // Empty pitches: power is optional, and there are no bedrooms or beds.
             this.hasPower = hasPower;
             this.bedrooms = 0;
             this.beds = 0;
         }
     }
 
-    // A plot is "static" if it is anything other than an empty pitch
+    // A plot is static if it is anything other than an empty pitch.
     public boolean isStatic() {
         return !type.equalsIgnoreCase(EMPTY_PITCH);
     }
 
-    /**
-     * Checks if this plot is free between two dates.
-     * Two stays overlap if one starts before the other ends.
-     * The end date is the check-out day, so a new guest can arrive that same day.
-     */
+
     public boolean isAvailable(LocalDate start, LocalDate end) {
         for (Booking b : bookings) {
             boolean overlaps = start.isBefore(b.getEndDate()) && b.getStartDate().isBefore(end);

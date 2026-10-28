@@ -4,18 +4,15 @@ import com.campsite.datastructures.MyLinkedList;
 
 import java.io.Serializable;
 
-/**
- * A campsite, e.g. "Sunny Shores Holiday Park".
- * A campsite holds a list of camping areas.
- */
+
 public class Campsite implements Serializable {
 
     private String name;
     private String address;
     private int stars;
     private String contactInfo;
-    private MyLinkedList<String> facilities;      // e.g. Restaurant, WiFi, Laundry
-    private MyLinkedList<CampingArea> areas;      // the camping areas in this campsite
+    private MyLinkedList<String> facilities;      // e.g. Restaurant, Wi-Fi, Laundry.
+    private MyLinkedList<CampingArea> areas;      // camping areas in this campsite.
 
     public Campsite(String name, String address, int stars, String contactInfo, MyLinkedList<String> facilities) {
         this.name = name;
@@ -32,13 +29,13 @@ public class Campsite implements Serializable {
      */
     public boolean addArea(CampingArea area) {
         if (findArea(area.getIdentifier()) != null) {
-            return false;   // duplicate identifier, so refuse
+            return false;   // duplicate identifier, so refuse.
         }
         areas.add(area);
         return true;
     }
 
-    // Finds an area by its identifier (ignoring case). Returns null if not found
+    // Finds an area by its identifier (ignoring case). Returns null if not found.
     public CampingArea findArea(String identifier) {
         for (CampingArea area : areas) {
             if (area.getIdentifier().equalsIgnoreCase(identifier)) {
@@ -56,7 +53,7 @@ public class Campsite implements Serializable {
     public MyLinkedList<String> getFacilities() { return facilities; }
     public MyLinkedList<CampingArea> getAreas() { return areas; }
 
-    // Full details, shown in the details box of the GUI
+    // Full details, shown in the details box of the GUI.
     public String getDetails() {
         return "Campsite: " + name
                 + "\nAddress: " + address
@@ -66,7 +63,7 @@ public class Campsite implements Serializable {
                 + "\nCamping areas: " + areas.size();
     }
 
-    // What the ListView shows for this object
+    // What the ListView shows for this object.
     @Override
     public String toString() {
         return name + " (" + stars + " stars)";

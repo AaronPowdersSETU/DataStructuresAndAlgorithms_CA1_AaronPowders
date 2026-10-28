@@ -14,9 +14,7 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests for the main business logic in CampsiteSystem.
- */
+
 class CampsiteSystemTest {
 
     private CampsiteSystem system;
@@ -27,11 +25,11 @@ class CampsiteSystemTest {
     private Plot pitch;
     private Guest guest;
 
-    // Dates in the future, so the bookings count as "pending"
+    // Dates in the future, so the bookings count as pending.
     private LocalDate start = LocalDate.now().plusDays(10);
     private LocalDate end = LocalDate.now().plusDays(13);   // 3 nights
 
-    // Builds a small campsite before every test
+    // Builds a campsite before every test.
     @BeforeEach
     void setUp() {
         system = new CampsiteSystem();
@@ -65,7 +63,7 @@ class CampsiteSystemTest {
 
     @Test
     void staticPlotAlwaysHasPower() {
-        // We passed "false" for power above, but bungalows must have power
+        // We passed "false" for power above, but bungalows must have power.
         assertTrue(bungalow.hasPower());
     }
 
@@ -76,13 +74,13 @@ class CampsiteSystemTest {
 
         assertNotNull(b);
         assertEquals(bungalow, b.getPlot());
-        assertEquals(300, b.getTotalCost());           // 3 nights x €100
+        assertEquals(300, b.getTotalCost());           // 3 nights x €100.
         assertEquals(1, guest.getBookings().size());
     }
 
     @Test
     void bookingFailsWhenOverBudget() {
-        // 3 nights x €100 = €300, but the budget is only €200
+        // 3 nights x €100 = €300, but the budget is only €200.
         Booking b = system.makeBooking(campsite, lakeArea, guest, start, end,
                 Plot.BUNGALOW, 2, false, 0, 0, 200);
         assertNull(b);
@@ -92,7 +90,7 @@ class CampsiteSystemTest {
     void plotCannotBeDoubleBooked() {
         Booking first = system.makeBooking(campsite, lakeArea, guest, start, end,
                 Plot.BUNGALOW, 2, false, 0, 0, 500);
-        // Overlapping dates for the same (only) bungalow
+        // Overlapping dates for the same (only) bungalow.
         Booking second = system.makeBooking(campsite, lakeArea, guest, start.plusDays(1), end.plusDays(1),
                 Plot.BUNGALOW, 2, false, 0, 0, 500);
 
@@ -151,14 +149,14 @@ class CampsiteSystemTest {
 
     @Test
     void smartFindMovesToLaterDateWhenFull() {
-        // Fill the only pitch on the desired dates
+        // Fill the only pitch on the desired dates.
         system.makeBooking(campsite, lakeArea, guest, start, end, Plot.EMPTY_PITCH, 2, true, 0, 0, 500);
 
         Booking result = system.smartFind(guest, start, 3, 2, 500, 0, Plot.EMPTY_PITCH, true,
                 new MyLinkedList<>());
 
         assertNotNull(result);
-        assertEquals(end, result.getStartDate());   // first free day is the old check-out day
+        assertEquals(end, result.getStartDate());   // first free day is the old check-out day.
     }
 
     @Test
@@ -181,6 +179,6 @@ class CampsiteSystemTest {
         assertEquals(1, loaded.findGuest(1).getBookings().size());
         assertNotNull(loaded.findCampsite("Sunny Shores").findArea("Lake View Area 1").findPlot("B1"));
 
-        new File(fileName).delete();   // tidy up the test file
+        new File(fileName).delete();   // tidy up the test file.
     }
 }

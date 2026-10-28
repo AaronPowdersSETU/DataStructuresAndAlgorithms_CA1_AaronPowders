@@ -5,10 +5,7 @@ import com.campsite.datastructures.MyLinkedList;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- * A guest who can make bookings at any campsite.
- * The guest keeps a list of all their bookings (past and pending).
- */
+
 public class Guest implements Serializable {
 
     private int id;
@@ -17,7 +14,7 @@ public class Guest implements Serializable {
     private String address;
     private String phone;
     private String email;
-    private String extraInfo;                 // any other useful notes
+    private String extraInfo;                 // any other useful notes.
     private MyLinkedList<Booking> bookings;
 
     public Guest(int id, String name, LocalDate dateOfBirth, String address,

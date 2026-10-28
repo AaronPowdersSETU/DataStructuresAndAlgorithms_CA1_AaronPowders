@@ -7,15 +7,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * Starting point of the application.
- * It loads the layout from main-view.fxml (built in SceneBuilder) and shows the window.
- */
+
 public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Load the FXML layout file from the resources folder
+        // Load the FXML layout file from the resources folder.
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("main-view.fxml"));
         Scene scene = new Scene(loader.load(), 1150, 780);
 
@@ -25,6 +22,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        launch();   // starts JavaFX, which then calls start()
+        launch();   // starts JavaFX, which then calls start().
     }
 }

@@ -18,42 +18,36 @@ import javafx.scene.control.TextField;
 
 import java.time.LocalDate;
 
-/**
- * Controller for main-view.fxml.
- * Every field marked @FXML is linked to a control in SceneBuilder with the same fx:id.
- * Every method marked @FXML is linked to a button's "On Action" (or a list's "On Mouse Clicked").
- * The controller does NOT store data itself; it asks CampsiteSystem to do the work
- * and then shows the results in the GUI.
- */
+
 public class MainController {
 
     private static final String SAVE_FILE = "campsite-data.dat";
 
-    // The one object that holds all the data and logic
+    // the object that holds all the data and logic.
     private CampsiteSystem system = new CampsiteSystem();
 
-    // Remembers the unconfirmed result of the last smart find
+    // Remembers the unconfirmed result of the last smart find.
     private Booking smartFindResult = null;
 
-    // ---------- Drill-down lists and details ----------
+    // Drill-down lists and details
     @FXML private ListView<Campsite> campsiteList;
     @FXML private ListView<CampingArea> areaList;
     @FXML private ListView<Plot> plotList;
     @FXML private ListView<Booking> bookingList;
     @FXML private TextArea detailsArea;
 
-    // ---------- Add campsite ----------
+    // Add campsite
     @FXML private TextField campsiteNameField;
     @FXML private TextField campsiteAddressField;
     @FXML private TextField campsiteStarsField;
     @FXML private TextField campsiteContactField;
     @FXML private TextField campsiteFacilitiesField;
 
-    // ---------- Add camping area ----------
+    // Add camping area
     @FXML private TextField areaIdField;
     @FXML private TextField areaDescriptionField;
 
-    // ---------- Add plot ----------
+    // Add plot
     @FXML private TextField plotIdField;
     @FXML private ComboBox<String> plotTypeBox;
     @FXML private CheckBox plotPowerCheck;
@@ -64,7 +58,7 @@ public class MainController {
     @FXML private TextField plotCostField;
     @FXML private TextField plotPhotoField;
 
-    // ---------- Guests ----------
+    // Guests
     @FXML private TextField guestNameField;
     @FXML private DatePicker guestDobPicker;
     @FXML private TextField guestAddressField;
@@ -73,7 +67,7 @@ public class MainController {
     @FXML private TextField guestInfoField;
     @FXML private TextField viewGuestIdField;
 
-    // ---------- Make booking ----------
+    // Make booking
     @FXML private TextField bookingGuestIdField;
     @FXML private DatePicker bookingStartPicker;
     @FXML private DatePicker bookingEndPicker;
@@ -84,7 +78,7 @@ public class MainController {
     @FXML private TextField bookingMinBedroomsField;
     @FXML private TextField bookingBudgetField;
 
-    // ---------- Smart find ----------
+    // Smart find
     @FXML private TextField smartGuestIdField;
     @FXML private DatePicker smartStartPicker;
     @FXML private TextField smartNightsField;
@@ -95,10 +89,7 @@ public class MainController {
     @FXML private CheckBox smartPowerCheck;
     @FXML private TextField smartFacilitiesField;
 
-    /**
-     * Runs automatically once the FXML has loaded.
-     * Fills the drop-down boxes with the plot types.
-     */
+
     @FXML
     public void initialize() {
         plotTypeBox.getItems().addAll(Plot.STATIC_MOBILE_HOME, Plot.BUNGALOW, Plot.APARTMENT, Plot.EMPTY_PITCH);
@@ -110,10 +101,10 @@ public class MainController {
     }
 
     // ============================================================
-    // Drill-down: clicking a list shows the next level down
+    // Drill-down: clicking a list shows the next level down.
     // ============================================================
 
-    // Reloads the campsite list from the system and empties the lower lists
+    // Reloads the campsite list from the system and empties the lower lists.
     private void refreshCampsites() {
         campsiteList.getItems().clear();
         for (Campsite c : system.getCampsites()) {
@@ -184,7 +175,7 @@ public class MainController {
     }
 
     // ============================================================
-    // Adding things
+    // Adding things.
     // ============================================================
 
     @FXML
@@ -288,7 +279,7 @@ public class MainController {
     }
 
     // ============================================================
-    // Bookings
+    // Bookings.
     // ============================================================
 
     @FXML
@@ -367,7 +358,7 @@ public class MainController {
     }
 
     // ============================================================
-    // Smart find
+    // Smart find.
     // ============================================================
 
     @FXML
@@ -414,7 +405,7 @@ public class MainController {
     }
 
     // ============================================================
-    // Reports
+    // Reports.
     // ============================================================
 
     @FXML
@@ -433,7 +424,7 @@ public class MainController {
     }
 
     // ============================================================
-    // Save, load, reset
+    // Save, load, reset.
     // ============================================================
 
     @FXML
@@ -466,10 +457,10 @@ public class MainController {
     }
 
     // ============================================================
-    // Small helper methods
+    // Small helper methods.
     // ============================================================
 
-    // Shows a pop-up message box
+    // Shows a pop-up message box.
     private void showMessage(String text) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
@@ -477,7 +468,7 @@ public class MainController {
         alert.showAndWait();
     }
 
-    // Reads a whole number from a text field, or returns 0 if the field is blank
+    // Reads a whole number from a text field, or returns 0 if the field is blank.
     private int readIntOrZero(TextField field) {
         String text = field.getText().trim();
         if (text.isEmpty()) {
@@ -486,7 +477,7 @@ public class MainController {
         return Integer.parseInt(text);
     }
 
-    // Reads a decimal number from a text field, or returns 0 if the field is blank
+    // Reads a decimal number from a text field, or returns 0 if the field is blank.
     private double readDoubleOrZero(TextField field) {
         String text = field.getText().trim();
         if (text.isEmpty()) {
@@ -495,7 +486,7 @@ public class MainController {
         return Double.parseDouble(text);
     }
 
-    // Reads a guest id from a text field and finds the guest. Shows a message if not found
+    // Reads a guest id from a text field and finds the guest. Shows a message if not found.
     private Guest readGuest(TextField field) {
         try {
             int id = Integer.parseInt(field.getText().trim());

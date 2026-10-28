@@ -4,11 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-/**
- * A booking (stay) made by a guest.
- * It stores the guest's preferences, which are used to find a suitable plot.
- * Once a plot is found, the booking is linked to its campsite, area and plot.
- */
+
 public class Booking implements Serializable {
 
     private int id;
@@ -16,7 +12,7 @@ public class Booking implements Serializable {
     private LocalDate startDate;   // arrival day
     private LocalDate endDate;     // check-out day
 
-    // Booking preferences
+    // Booking preferences.
     private String preferredType;  // e.g. "Bungalow" or "Empty Pitch"
     private int numberOfGuests;
     private boolean needsPower;
@@ -43,7 +39,7 @@ public class Booking implements Serializable {
         this.budget = budget;
     }
 
-    // Number of nights, e.g. 1st to 4th = 3 nights
+    // Number of nights.
     public long getNights() {
         return ChronoUnit.DAYS.between(startDate, endDate);
     }
@@ -56,12 +52,12 @@ public class Booking implements Serializable {
         return getNights() * plot.getCostPerNight();
     }
 
-    // A booking is "pending" if the stay has not finished yet
+    // A booking is "pending" if the stay has not finished yet.
     public boolean isPending() {
         return !endDate.isBefore(LocalDate.now());
     }
 
-    // Links this booking to the place it was assigned
+    // Links this booking to the place it was assigned.
     public void assignTo(Campsite campsite, CampingArea area, Plot plot) {
         this.campsite = campsite;
         this.area = area;
@@ -82,7 +78,7 @@ public class Booking implements Serializable {
     public CampingArea getArea() { return area; }
     public Plot getPlot() { return plot; }
 
-    // One line summary used in reports
+    // One line summary used in reports.
     public String getSummary() {
         return "Booking #" + id
                 + " | Guest: " + guest.getName()

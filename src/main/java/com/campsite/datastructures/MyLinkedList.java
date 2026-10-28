@@ -3,33 +3,26 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/**
- * A custom singly linked list built from scratch.
- * Used everywhere in the project instead of ArrayList or LinkedList.
- * The <T> means it is "generic": it can hold any type (Campsite, Plot, String, etc.).
- * It implements Iterable so we can use it in a for-each loop.
- * It implements Serializable so it can be saved to a file.
- */
 public class MyLinkedList<T> implements Iterable<T>, Serializable {
 
     private Node<T> head;   // first node in the list (null if the list is empty)
     private int size;       // how many items are in the list
 
-    // Creates an empty list
+    // Creates an empty list.
     public MyLinkedList() {
         head = null;
         size = 0;
     }
 
-    // Adds an item to the END of the list
+    // Adds an item to the end of the list.
     public void add(T item) {
         Node<T> newNode = new Node<>(item);
 
         if (head == null) {
-            // List is empty, so the new node becomes the head
+            // List is empty, so the new node becomes the head.
             head = newNode;
         } else {
-            // Walk to the last node, then link the new node after it
+            // Walk to the last node, then link the new node after it.
             Node<T> current = head;
             while (current.next != null) {
                 current = current.next;
@@ -45,31 +38,31 @@ public class MyLinkedList<T> implements Iterable<T>, Serializable {
             throw new IndexOutOfBoundsException("Index " + index + " is out of range");
         }
         Node<T> current = head;
-        // Move forward "index" times
+        // Move forward "index" times.
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
         return current.data;
     }
 
-    // Removes the first occurrence of the given item. Returns true if something was removed
+    // Removes the first occurrence of the given item. Returns true if something was removed.
     public boolean remove(T item) {
         if (head == null) {
             return false;
         }
 
-        // Special case: the item is the head
+        // Special case: the item is the head.
         if (head.data.equals(item)) {
             head = head.next;
             size--;
             return true;
         }
 
-        // Otherwise look ahead one node at a time
+        // Otherwise look ahead one node at a time.
         Node<T> current = head;
         while (current.next != null) {
             if (current.next.data.equals(item)) {
-                // Skip over the node being removed
+                // Skip over the node being removed.
                 current.next = current.next.next;
                 size--;
                 return true;
@@ -79,7 +72,7 @@ public class MyLinkedList<T> implements Iterable<T>, Serializable {
         return false;
     }
 
-    // Returns true if the item is in the list
+    // Returns true if the item is in the list.
     public boolean contains(T item) {
         Node<T> current = head;
         while (current != null) {
@@ -91,30 +84,27 @@ public class MyLinkedList<T> implements Iterable<T>, Serializable {
         return false;
     }
 
-    // Returns the number of items in the list
+    // Returns the number of items in the list.
     public int size() {
         return size;
     }
 
-    // Returns true if the list has no items
+    // Returns true if the list has no items.
     public boolean isEmpty() {
         return size == 0;
     }
 
-    // Removes everything from the list
+    // Removes everything from the list.
     public void clear() {
         head = null;
         size = 0;
     }
 
-    /**
-     * Returns an Iterator so the list works in a for-each loop, e.g.
-     * for (Plot p : plots) { ... }
-     */
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private Node<T> current = head;  // start at the first node
+            private Node<T> current = head;  // start at the first node.
 
             @Override
             public boolean hasNext() {
@@ -127,13 +117,13 @@ public class MyLinkedList<T> implements Iterable<T>, Serializable {
                     throw new NoSuchElementException();
                 }
                 T data = current.data;
-                current = current.next;  // move along to the next node
+                current = current.next;  // move along to the next node.
                 return data;
             }
         };
     }
 
-    // Returns the list as text, e.g. "WiFi, Pool, Laundry"
+    // Returns the list as text.
     @Override
     public String toString() {
         String result = "";
@@ -148,10 +138,7 @@ public class MyLinkedList<T> implements Iterable<T>, Serializable {
         return result;
     }
 
-    /**
-     * Turns text like "WiFi, Pool, Laundry" into a list of Strings.
-     * Written by hand because String.split() returns an array, which the brief does not allow.
-     */
+
     public static MyLinkedList<String> fromCommaText(String text) {
         MyLinkedList<String> list = new MyLinkedList<>();
         if (text == null) {
@@ -162,7 +149,7 @@ public class MyLinkedList<T> implements Iterable<T>, Serializable {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (c == ',') {
-                // End of a word: add it if it is not blank
+                // End of a word, add it if it is not blank.
                 if (!word.trim().isEmpty()) {
                     list.add(word.trim());
                 }
@@ -178,10 +165,7 @@ public class MyLinkedList<T> implements Iterable<T>, Serializable {
         return list;
     }
 
-    /**
-     * Returns true if this list contains the given text, ignoring upper/lower case.
-     * Handy for facilities, so "wifi" matches "WiFi".
-     */
+
     public boolean containsIgnoreCase(String text) {
         Node<T> current = head;
         while (current != null) {
